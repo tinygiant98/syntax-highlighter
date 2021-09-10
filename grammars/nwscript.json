@@ -2,35 +2,24 @@
     "simpleTerms": {
         "type_identifier": "type",
         "primitive_type": "type",
-        "\"signed\"": "type",
-        "\"unsigned\"": "type",
-        "\"short\"": "type",
-        "\"long\"": "type",
+        "nwn_type": "type",
 
         "statement_identifier": "variable",
 
         "\"const\"": "modifier",
-        "\"static\"": "modifier",
-        "\"auto\"": "modifier",
-        "\"extern\"": "modifier",
-        "\"inline\"": "modifier",
-        "\"register\"": "modifier",
-        "\"volatile\"": "modifier",
-        "\"restrict\"": "modifier",
-        "\"_Atomic\"": "modifier",
-        "\"__attribute__\"": "modifier",
-        "function_specifier": "modifier",
+        "const_qualifier": "modifier",
+
+        "nwnsc_macro": "nwnsc",
 
         "number_literal": "number",
-        "char_literal": "string",
-        "string_literal": "string",
-        "system_lib_string": "string",
-        "escape_sequence": "string",
+        "string_literal": "dev/null",
+        "escape_sequence": "dev/null",
         "comment": "comment",
 
-        "null": "constant",
         "true": "constant",
         "false": "constant",
+        "object_invalid": "constant",
+        "object_self": "constant",
 
         "\"if\"": "control",
         "\"else\"": "control",
@@ -42,16 +31,9 @@
         "\"return\"": "control",
         "\"switch\"": "control",
         "\"case\"": "control",
-        "\"default\"": "control",
-        "\"goto\"": "control",
-        "\"struct\"": "control",
-        "\"enum\"": "control",
-        "\"union\"": "control",
-        "\"typedef\"": "control",
+        "\"struct\"": "type",
 
-        "\"sizeof\"": "operator",
         "\".\"": "operator",
-        "\"->\"": "operator",
         "\"*\"": "operator",
         "\"-\"": "operator",
         "\"+\"": "operator",
@@ -82,19 +64,13 @@
         "\"%=\"": "operator",
         "\"<<=\"": "operator",
         "\">>=\"": "operator",
+        "\">>>=\"": "operator",
         "\"&=\"": "operator",
         "\"^=\"": "operator",
         "\"|=\"": "operator",
         "\"?\"": "operator",
         "\":\"": "operator",
 
-        "\"#if\"": "directive",
-        "\"#ifdef\"": "directive",
-        "\"#ifndef\"": "directive",
-        "\"#elif\"": "directive",
-        "\"#else\"": "directive",
-        "\"#endif\"": "directive",
-        "\"#define\"": "directive",
         "\"#include\"": "directive",
         "preproc_directive": "directive",
         "preproc_arg": "directive",
@@ -117,7 +93,9 @@
 
         "call_expression > identifier" : "function",
         "call_expression > field_expression > field_identifier" : "function",
-        "function_declarator > identifier" : "function"
+        "function_definition > identifier" : "function",
+        "struct_specifier > identifier" : "type",
+        "struct_declarator > identifier" : "type"
     }
 
 }

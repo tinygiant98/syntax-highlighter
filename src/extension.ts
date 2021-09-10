@@ -60,6 +60,7 @@ class Grammar {
         let terms: { term: string; range: vscode.Range }[] = [];
         let stack: parser.SyntaxNode[] = [];
         let node = tree.rootNode.firstChild;
+
         while (stack.length > 0 || node) {
             // Go deeper
             if (node) {
@@ -72,7 +73,7 @@ class Grammar {
                 let type = node.type;
                 if (!node.isNamed())
                     type = '"' + type + '"';
-
+                    
                 // Simple one-level terms
                 let term: string | undefined = undefined;
                 if (!this.complexTerms.includes(type)) {
@@ -155,12 +156,13 @@ function buildLegend() {
     termMap.set("number", { type: "number" });
     termMap.set("string", { type: "string" });
     termMap.set("comment", { type: "comment" });
-    termMap.set("constant", { type: "variable", modifiers: ["readonly", "defaultLibrary"] });
+    termMap.set("constant", { type: "variable", modifiers: ["readonly"] });
     termMap.set("directive", { type: "macro" });
     termMap.set("control", { type: "keyword" });
     termMap.set("operator", { type: "operator" });
     termMap.set("modifier", { type: "type", modifiers: ["modification"] });
     termMap.set("punctuation", { type: "punctuation" });
+    termMap.set("nwnsc", { type: "nwnsc" });
     // Tokens and modifiers in use
     let tokens: string[] = [];
     let modifiers: string[] = [];
@@ -188,7 +190,7 @@ class TokensProvider implements vscode.DocumentSemanticTokensProvider, vscode.Ho
         // Terms
         const availableTerms: string[] = [
             "type", "scope", "function", "variable", "number", "string", "comment",
-            "constant", "directive", "control", "operator", "modifier", "punctuation",
+            "constant", "directive", "control", "operator", "modifier", "punctuation", "nwnsc"
         ];
         const enabledTerms: string[] = vscode.workspace.
             getConfiguration("syntax").get("highlightTerms");
@@ -213,11 +215,13 @@ class TokensProvider implements vscode.DocumentSemanticTokensProvider, vscode.Ho
             this.grammars[lang] = new Grammar(lang);
             await this.grammars[lang].init();
         }
+        
         // Parse document
         const grammar = this.grammars[lang];
         const tree = grammar.tree(doc.getText());
         const terms = grammar.parse(tree);
         this.trees[doc.uri.toString()] = tree;
+        
         // Build tokens
         const builder = new vscode.SemanticTokensBuilder(legend);
         terms.forEach((t) => {

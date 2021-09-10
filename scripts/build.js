@@ -34,7 +34,7 @@ for (li of langs) {
     }
 
     console.log("Compiling " + lang + " parser");
-    exec("node_modules/.bin/tree-sitter build-wasm " + module,
+    exec("./node_modules/.bin/tree-sitter build-wasm " + module,
         (err) => {
             if (err)
                 console.log("Failed to build wasm for " + lang + ": " + err.message);
