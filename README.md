@@ -8,21 +8,7 @@
 ![demo](images/demo.gif)
 
 #### Languages:
-* C++
-* C
-* Python
-* TypeScript
-* TypeScriptReact
-* JavaScript
-* Go
-* Rust
-* Php
-* Ruby
-* ShellScript
-* Bash
-* OCaml
-* Lua
-* More to come...
+* nwscript
 
 ## Description
 

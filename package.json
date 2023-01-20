@@ -55,7 +55,6 @@
         "@types/node": "^13.7.2",
         "@types/vscode": "^1.46.0",
         "ovsx": "0.1.0-next.a9154dc",
-        "tree-sitter": "^0.19.0",
         "tree-sitter-bash": "^0.19.0",
         "tslint": "^6.1.2",
         "typescript": "^3.9.3",
@@ -64,7 +63,7 @@
     "contributes": {
         "editor.semanticTokenColorCustomizations": {
             "enabled": true,
-            "rules" : {
+            "rules": {
                 "nwnsc": "#bd3c92"
             }
         },
@@ -86,17 +85,26 @@
                 }
             }
         ],
-        "languages": [{
-            "id": "nwscript",
-            "aliases": ["Neverwinter Script", "nwscript"],
-            "extensions": [".nss"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "nwscript",
-            "scopeName": "source.nss",
-            "path": "./syntaxes/nwscript.tmLanguage"
-        }],
+        "languages": [
+            {
+                "id": "nwscript",
+                "aliases": [
+                    "Neverwinter Script",
+                    "nwscript"
+                ],
+                "extensions": [
+                    ".nss"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "nwscript",
+                "scopeName": "source.nss",
+                "path": "./syntaxes/nwscript.tmLanguage"
+            }
+        ],
         "configurationDefaults": {
             "[nwscript]": {
                 "editor.semanticHighlighting.enabled": true

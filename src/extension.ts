@@ -3,6 +3,8 @@ import * as parser from 'web-tree-sitter';
 import * as jsonc from 'jsonc-parser';
 import * as fs from 'fs';
 import * as path from 'path';
+import { Console, debug } from 'console';
+import Parser = require('web-tree-sitter');
 
 // Grammar class
 const parserPromise = parser.init();
@@ -52,6 +54,76 @@ class Grammar {
     // Build syntax tree
     tree(doc: string) {
         return this.parser.parse(doc);
+    }
+
+    query(tree: parser.Tree, node: parser.SyntaxNode)
+    {
+        let query = `"if" @keyword
+        "else" @keyword
+        "do" @keyword
+        "for" @keyword
+        "while" @keyword
+        "break" @keyword
+        "continue" @keyword
+        "return" @keyword
+        "switch" @keyword
+        "case" @keyword
+        "default" @keyword
+        "struct" @type.builtin
+        "#include" @keyword
+        "." @operator
+        "--" @operator
+        "-" @operator
+        "-=" @operator
+        "=" @operator
+        "!=" @operator
+        "*" @operator
+        "&" @operator
+        "&&" @operator
+        "+" @operator
+        "++" @operator
+        "+=" @operator
+        "<" @operator
+        "=" @operator
+        "==" @operator
+        ">" @operator
+        "||" @operator
+        ";" @punctuation
+        "{" @punctuation
+        "}" @punctuation
+        "[" @punctuation
+        "]" @punctuation
+        "(" @punctuation
+        ")" @punctuation
+        "," @punctuation
+        (field_expression) @enum
+        (const_qualifier) @type.modification
+        (function_definition declarator: (identifier) @function)
+        (struct_declarator declarator: (identifier) @type)
+        (struct_declarator (identifier) @type)
+        (struct_members (type_identifier) @type.builtin (identifier) @enum)
+        (struct_specifier (identifier) @type)
+        (struct_specifier) @type (call_expression function: (identifier) @function)
+        (primitive_type) @type.builtin
+        (nwn_type) @type.builtin
+        (escape_sequence) @string.special
+        (string_literal) @string
+        (number_literal) @number
+        ((identifier) @constant (#match? @constant "^[A-Z][A-Z\\d_]*$"))
+        (identifier) @variable
+        (nwnsc_macro) @macro
+        (comment) @comment`;
+/*
+        (nwn_constant) @constant.builtin `;
+
+
+(nwn_constant) @constant.builtin
+    */
+        
+        //let matches = tree.getLanguage().query(query).matches(node);
+        let captures = tree.getLanguage().query(query).captures(node);
+        //console.log(matches);
+        console.log(captures);
     }
 
     // Parse syntax tree
@@ -138,9 +210,12 @@ class Grammar {
                     });
                 }
                 // Go right
+
+                this.query(tree, node);
                 node = node.nextSibling
             }
         }
+        
         return terms;
     }
 }
@@ -221,7 +296,11 @@ class TokensProvider implements vscode.DocumentSemanticTokensProvider, vscode.Ho
         const tree = grammar.tree(doc.getText());
         const terms = grammar.parse(tree);
         this.trees[doc.uri.toString()] = tree;
-        
+
+        // Test area
+
+        // End test area
+
         // Build tokens
         const builder = new vscode.SemanticTokensBuilder(legend);
         terms.forEach((t) => {
@@ -239,6 +318,7 @@ class TokensProvider implements vscode.DocumentSemanticTokensProvider, vscode.Ho
             builder.push(new vscode.Range(doc.lineAt(line).range.start,
                     t.range.end), type, modifiers);
         });
+
         return builder.build();
     }
 

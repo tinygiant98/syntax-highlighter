@@ -15,6 +15,7 @@
         "string_literal": "dev/null",
         "escape_sequence": "dev/null",
         "comment": "comment",
+        "decoration": "comment",
 
         "true": "constant",
         "false": "constant",
@@ -31,6 +32,7 @@
         "\"return\"": "control",
         "\"switch\"": "control",
         "\"case\"": "control",
+        "\"default\"": "control",
         "\"struct\"": "type",
 
         "\".\"": "operator",
@@ -74,6 +76,7 @@
         "\"#include\"": "directive",
         "preproc_directive": "directive",
         "preproc_arg": "directive",
+        "preproc_include": "directive",
 
         "\";\"": "punctuation",
         "\"[\"": "punctuation",
